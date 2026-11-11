@@ -1,0 +1,114 @@
+{
+  "info": {
+    "_postman_id": "6f1d2c4a-2416-4501-a007-7a3b9c1e5d20",
+    "name": "Kampüs API",
+    "description": "Sprint 7 · Yağız Yıldırmış (2416501007) · 6 istek",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1 Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["health"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2 Etkinlik listesi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["events"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3 Tek etkinlik",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/events/event-2",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["events", "event-2"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4 Olmayan etkinlik (404)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/events/yok",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["events", "yok"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5 Etkinlik oluştur (201)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Git ve GitHub Atölyesi\",\n  \"category\": \"Atölye\",\n  \"capacity\": 30,\n  \"date\": \"2026-12-03\",\n  \"time\": \"14:00\",\n  \"location\": \"Bilgisayar Laboratuvarı 2\",\n  \"description\": \"Commit, branch ve pull request ile ilk adımlar.\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "http://localhost:3000/events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["events"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6 Eksik veri (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Sadece başlık\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "http://localhost:3000/events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["events"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
