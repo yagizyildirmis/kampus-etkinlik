@@ -1,4 +1,4 @@
-Canlı adres: https://yagizyildirmis-frontend.vercel.app
+Canlı adres: https://yagizyildirmis-kampus-etkinlik.vercel.app
 
 # Kampüs Etkinlikleri
 
