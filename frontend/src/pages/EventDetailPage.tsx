@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useEvents } from "../context/EventsContext";
 import { findEventById } from "../utils/filter-events";
@@ -10,14 +9,7 @@ function EventDetailPage() {
   const { id } = useParams();
   const { events } = useEvents();
   const event = findEventById(events, id ?? "");
-
-  const title = event?.title;
-  useEffect(() => {
-    document.title = title ? `Kampüs Etkinlikleri — ${title}` : "Kampüs Etkinlikleri";
-    return () => {
-      document.title = "Kampüs Etkinlikleri";
-    };
-  }, [title]);
+  // Sayfa ve sekme başlığını Header adresten kendisi ayarlar
 
   if (!event) return <NotFoundPage />;
 
