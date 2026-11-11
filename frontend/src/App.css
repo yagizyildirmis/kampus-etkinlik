@@ -1,0 +1,295 @@
+/* Yağız Yıldırmış — 2416501007 */
+:root {
+  --no: 2416501007;
+  --ton: mod(var(--no), 360);           /* 2416501007 mod 360 = 287 */
+  --renk-ana: hsl(var(--ton) 65% 38%);
+  --renk-zemin: hsl(var(--ton) 30% 97%);
+  --font: "Palatino Linotype", serif;    /* son hane 7 */
+  --bosluk-m: 1rem;  --kose: 8px;
+
+  /* yardımcı değişkenler (numaradan türetilir) */
+  --renk-koyu: hsl(var(--ton) 65% 26%);
+  --renk-acik: hsl(var(--ton) 45% 88%);
+  --renk-metin: hsl(var(--ton) 25% 15%);
+  --renk-soluk: hsl(var(--ton) 10% 40%);
+  --renk-kenar: hsl(var(--ton) 20% 85%);
+  --renk-kart: #ffffff;
+  --renk-hata: #c62828;
+  --renk-hata-zemin: #fff1f1;
+  --renk-basari: #1b7a2f;
+  --bosluk-s: 0.5rem;
+  --bosluk-l: 1.5rem;
+  --genislik: 1100px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--renk-metin);
+  background: var(--renk-zemin);
+  line-height: 1.5;
+  font-size: 1.05rem;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ---------- Başlık ve menü (5 sayfada aynı) ---------- */
+header {
+  background: var(--renk-ana);
+  color: #fff;
+  padding: var(--bosluk-m);
+}
+header h1 { margin: 0 0 var(--bosluk-s); font-size: 1.6rem; }
+header p { margin: 0 0 var(--bosluk-s); font-size: 0.95rem; opacity: 0.92; }
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bosluk-s);
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.45rem 0.75rem;   /* parmakla basılabilir */
+  border-radius: var(--kose);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+nav a:hover { background: rgb(255 255 255 / 0.15); }
+nav a[aria-current="page"] {
+  background: #fff;
+  color: var(--renk-ana);
+  font-weight: 700;
+}
+
+/* ---------- Ana içerik ---------- */
+main {
+  max-width: var(--genislik);
+  margin: 0 auto;
+  padding: var(--bosluk-m);
+}
+
+h2 { color: var(--renk-koyu); }
+
+a { color: var(--renk-ana); }
+
+.buton, button {
+  display: inline-block;
+  background: var(--renk-ana);
+  color: #fff;
+  border: 0;
+  border-radius: var(--kose);
+  padding: 0.7rem 1.4rem;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  min-height: 44px;
+}
+.buton:hover, button:hover { background: var(--renk-koyu); }
+
+/* ---------- Kartlar: section > article + grid ---------- */
+.etkinlik-listesi {
+  display: grid;
+  grid-template-columns: 1fr;          /* telefon: tek sütun */
+  gap: var(--bosluk-m);
+  margin-bottom: var(--bosluk-l);
+}
+.kart {
+  background: var(--renk-kart);
+  border: 1px solid var(--renk-kenar);
+  border-top: 4px solid var(--renk-ana);
+  border-radius: var(--kose);
+  padding: var(--bosluk-m);
+}
+.kart h2, .kart h3 { margin: 0 0 var(--bosluk-s); font-size: 1.15rem; color: var(--renk-metin); }
+.kart p { margin: 0.25rem 0; }
+.kart a { font-weight: 700; }
+.etiket {
+  display: inline-block;
+  background: var(--renk-acik);
+  color: var(--renk-koyu);
+  border-radius: var(--kose);
+  padding: 0.1rem 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* ---------- Detay: afiş solda, künye sağda ---------- */
+.detay {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--bosluk-l);
+}
+.detay figure { margin: 0; }
+.detay figcaption { font-style: italic; color: var(--renk-soluk); margin-top: var(--bosluk-s); }
+.kunye {
+  background: var(--renk-kart);
+  border: 1px solid var(--renk-kenar);
+  border-radius: var(--kose);
+  padding: var(--bosluk-m);
+  margin: 0;
+}
+.kunye dt { font-weight: 700; }
+.kunye dd { margin: 0 0 var(--bosluk-s); }
+
+/* ---------- Form: label üstte, hatalı alan kırmızı ---------- */
+.form { max-width: 560px; }
+.form label { display: block; font-weight: 700; margin: var(--bosluk-m) 0 0.3rem; }
+.form input, .form select, .form textarea {
+  width: 100%;
+  font: inherit;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--renk-kenar);
+  border-radius: var(--kose);
+  background: #fff;
+  min-height: 44px;
+}
+.form input:focus, .form select:focus, .form textarea:focus {
+  outline: 2px solid var(--renk-ana);
+  outline-offset: 1px;
+}
+.form input:user-invalid, .form select:user-invalid, .form textarea:user-invalid {
+  border-color: var(--renk-hata);
+  background: var(--renk-hata-zemin);
+}
+.form button { margin-top: var(--bosluk-l); }
+
+/* ---------- Alt bilgi ---------- */
+footer {
+  text-align: center;
+  color: var(--renk-soluk);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--renk-kenar);
+  padding: var(--bosluk-m);
+  margin-top: var(--bosluk-l);
+}
+
+/* ---------- Geniş ekran ---------- */
+@media (min-width: 700px) {
+  header { padding: var(--bosluk-m) var(--bosluk-l); }
+  .etkinlik-listesi { grid-template-columns: repeat(2, 1fr); }
+  .detay { grid-template-columns: 1fr 1fr; align-items: start; }
+}
+@media (min-width: 1000px) {
+  .etkinlik-listesi { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* =========================================================
+   Sprint 3 eklemeleri: filtre, sonuç satırı, hata ve başarı
+   ========================================================= */
+.site-baslik p { margin: 0 0 var(--bosluk-s); }
+
+.bolum-baslik { margin-top: 0; }
+
+.filtre {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--bosluk-s) var(--bosluk-m);
+  background: var(--renk-kart);
+  border: 1px solid var(--renk-kenar);
+  border-radius: var(--kose);
+  padding: var(--bosluk-m);
+  margin-bottom: var(--bosluk-m);
+}
+.filtre label { display: block; font-weight: 700; margin-bottom: 0.3rem; }
+.filtre input, .filtre select {
+  width: 100%;
+  font: inherit;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--renk-kenar);
+  border-radius: var(--kose);
+  min-height: 44px;
+  background: #fff;
+}
+
+.sonuc { color: var(--renk-basari); font-weight: 700; margin: 0 0 var(--bosluk-m); }
+
+.hata-metni {
+  display: block;
+  color: var(--renk-hata);
+  font-size: 0.85rem;
+  min-height: 1.1em;
+  margin-top: 0.2rem;
+}
+.form [aria-invalid="true"] {
+  border-color: var(--renk-hata);
+  background: var(--renk-hata-zemin);
+}
+
+.mesaj {
+  border-radius: var(--kose);
+  padding: var(--bosluk-m);
+  margin: var(--bosluk-m) 0;
+}
+.mesaj:empty { display: none; }
+.mesaj-hata, .hata-kutusu {
+  border: 1px solid var(--renk-hata);
+  background: var(--renk-hata-zemin);
+  color: var(--renk-hata);
+  border-radius: var(--kose);
+  padding: var(--bosluk-m);
+}
+.mesaj-basari {
+  border: 1px solid var(--renk-basari);
+  background: #f2fbf3;
+  color: var(--renk-basari);
+}
+.mesaj pre { white-space: pre-wrap; word-break: break-word; font-size: 0.85rem; color: var(--renk-metin); }
+
+.butonlar { display: flex; flex-wrap: wrap; gap: var(--bosluk-s); margin-top: var(--bosluk-m); }
+
+@media (min-width: 700px) {
+  .filtre { grid-template-columns: 2fr 1fr; }
+}
+
+/* =========================================================
+   React / Sprint 6 eklemeleri
+   ========================================================= */
+/* React'te menü header'ın dışında: aynı renk bandı devam etsin */
+.menu {
+  background: var(--renk-ana);
+  padding: 0 var(--bosluk-m) var(--bosluk-s);
+}
+.site-baslik { padding-bottom: var(--bosluk-s); }
+.site-baslik h1 { margin-bottom: 0.25rem; }
+
+.detay h3 { margin: 0 0 var(--bosluk-s); color: var(--renk-koyu); }
+.kunye + h3 { margin-top: var(--bosluk-m); }
+
+.baglantilar { display: flex; flex-wrap: wrap; gap: var(--bosluk-m); margin-top: var(--bosluk-m); }
+
+/* ---------- Yönetim tablosu: masaüstünde tablo, telefonda kart ---------- */
+.tablo { width: 100%; border-collapse: collapse; background: var(--renk-kart); }
+.tablo th { background: var(--renk-ana); color: #fff; text-align: left; padding: 0.6rem; }
+.tablo td { padding: 0.6rem; border-bottom: 1px solid var(--renk-kenar); vertical-align: middle; }
+.islemler { display: flex; gap: var(--bosluk-s); flex-wrap: wrap; }
+.islemler .buton { padding: 0.5rem 1rem; }
+.buton-sil { background: var(--renk-hata); }
+.buton-sil:hover { background: #8e1c1c; }
+
+@media (max-width: 699px) {
+  .tablo { background: transparent; }
+  .tablo thead { display: none; }
+  .tablo tr {
+    display: block;
+    background: var(--renk-kart);
+    border: 1px solid var(--renk-kenar);
+    border-radius: var(--kose);
+    padding: var(--bosluk-s);
+    margin-bottom: var(--bosluk-m);
+  }
+  .tablo td { display: block; border: 0; padding: 0.3rem 0.4rem; }
+  .tablo td.islemler { display: flex; }
+  .tablo td[data-baslik]::before {
+    content: attr(data-baslik) ": ";
+    font-weight: 700;
+  }
+}
+
+@media (min-width: 700px) {
+  .menu { padding: 0 var(--bosluk-l) var(--bosluk-s); }
+}

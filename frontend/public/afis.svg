@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400" role="img" aria-label="Etkinlik afişi">
+  <rect width="640" height="400" fill="#2a0f33"/>
+  <rect x="24" y="24" width="592" height="352" fill="none" stroke="#e08ff5" stroke-width="4"/>
+  <circle cx="540" cy="90" r="46" fill="#9a2bb8" opacity="0.55"/>
+  <circle cx="100" cy="320" r="60" fill="#9a2bb8" opacity="0.35"/>
+  <text x="320" y="170" text-anchor="middle" font-family="Palatino Linotype, Palatino, serif" font-size="40" fill="#ffffff">Kampüs Etkinlikleri</text>
+  <text x="320" y="225" text-anchor="middle" font-family="Palatino Linotype, Palatino, serif" font-size="34" fill="#f2b8ff">2026</text>
+  <text x="320" y="285" text-anchor="middle" font-family="Palatino Linotype, Palatino, serif" font-size="20" fill="#e8dcec">Seminer · Atölye · Söyleşi · Yarışma</text>
+</svg>
