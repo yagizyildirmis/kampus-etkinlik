@@ -1,7 +1,7 @@
-// Bellek içi veri: sunucu yeniden başlayınca POST ile eklenenler kaybolur (Sprint 8'de MongoDB)
-export const events = [
+// Başlangıç verisi: "npm run seed" bunu MongoDB'ye yazar.
+// id alanı yok: her kayda MongoDB kendi _id'sini verir.
+export const seedEvents = [
   {
-    id: "event-1",
     title: "Yazılım Kariyer Zirvesi 2026",
     category: "Seminer",
     capacity: 150,
@@ -12,7 +12,6 @@ export const events = [
       "Sektörde çalışan mezunlarımız yazılım kariyerinde ilk adımları, staj ve iş başvurusu sürecini anlatıyor.",
   },
   {
-    id: "event-2",
     title: "Arduino ile Akıllı Ev Atölyesi",
     category: "Atölye",
     capacity: 24,
@@ -23,7 +22,6 @@ export const events = [
       "Sensörler ve röle modülüyle ışığı ve sıcaklığı kontrol eden küçük bir akıllı ev maketi kuruyoruz.",
   },
   {
-    id: "event-3",
     title: "Siber Güvenlikte Kariyer Söyleşisi",
     category: "Söyleşi",
     capacity: 60,
@@ -34,7 +32,6 @@ export const events = [
       "Bir sızma testi uzmanıyla güvenlik alanında nasıl çalışılır, hangi sertifikalar işe yarar konuşuyoruz.",
   },
   {
-    id: "event-4",
     title: "Figma ile Arayüz Tasarımı Atölyesi",
     category: "Atölye",
     capacity: 30,
@@ -45,7 +42,6 @@ export const events = [
       "Bir mobil uygulamanın giriş ve liste ekranlarını Figma'da sıfırdan tasarlayıp prototipe dönüştürüyoruz.",
   },
   {
-    id: "event-5",
     title: "Kampüs Hackathon 2026",
     category: "Yarışma",
     capacity: 90,
@@ -56,7 +52,6 @@ export const events = [
       "Üç kişilik takımlar 24 saat içinde kampüs yaşamını kolaylaştıran bir uygulama geliştiriyor.",
   },
   {
-    id: "event-6",
     title: "Bulut Bilişime Giriş Semineri",
     category: "Seminer",
     capacity: 120,

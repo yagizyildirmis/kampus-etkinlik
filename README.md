@@ -15,7 +15,7 @@ Fakültedeki seminer, atölye, söyleşi ve yarışmaları tek yerden takip etme
 | `sprint2/` | Sprint 2 | Aynı sayfalar + `css/2416501007.css`, responsive kartlar |
 | `sprint3/` | Sprint 3 | JavaScript modülleri: `data.js`, arama + kategori, `?id=` ile detay, form doğrulama |
 | `frontend/` | Sprint 4–6 + Vize | Vite + React + TypeScript, bileşenler, React Router, Context, yönetim paneli |
-| `backend/` | Sprint 7 | Node + Express REST API (`/health`, `/events`) |
+| `backend/` | Sprint 7–8 | Node + Express REST API (`/health`, `/events`), MongoDB + Mongoose |
 
 ## Frontend (React) kurulum
 
@@ -63,7 +63,8 @@ npm run build    # hatasız bitmeli
 ```bash
 cd backend
 npm install
-copy .env.example .env
+copy .env.example .env   # MONGODB_URI'yi kendi adresinle doldur
+npm run seed     # 6 başlangıç etkinliği
 npm run dev      # http://localhost:3000/health
 ```
 
