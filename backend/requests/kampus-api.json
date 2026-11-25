@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "6f1d2c4a-2416-4501-a007-7a3b9c1e5d20",
     "name": "Kampüs API",
-    "description": "Sprint 8 · Yağız Yıldırmış (2416501007) · 6 istek · MongoDB + Mongoose",
+    "description": "Sprint 9 · Yağız Yıldırmış (2416501007) · 18 istek · CRUD + arama + /upcoming",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -23,7 +23,19 @@
           ]
         }
       },
-      "response": []
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"student var\", () => pm.expect(pm.response.json().student).to.eql(\"2416501007\"));"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "2 Etkinlik listesi",
@@ -49,11 +61,11 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "// Listedeki ilk etkinliğin _id'si 3. istekte kullanılır",
+              "pm.test(\"status 200\", () => pm.response.to.have.status(200));",
               "const list = pm.response.json();",
-              "if (Array.isArray(list) && list.length > 0) {",
-              "  pm.collectionVariables.set(\"eventId\", list[0]._id);",
-              "}"
+              "pm.test(\"tarihler GG-AA-YYYY\", () => list.forEach((e) => pm.expect(e.date).to.match(/^\\d{2}-\\d{2}-\\d{4}$/)));",
+              "// Listedeki ilk etkinliğin _id'si 3. istekte kullanılır",
+              "if (list.length > 0) pm.collectionVariables.set(\"eventId\", list[0]._id);"
             ]
           }
         }
@@ -77,7 +89,18 @@
           ]
         }
       },
-      "response": []
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "4 Olmayan etkinlik (404)",
@@ -97,7 +120,19 @@
           ]
         }
       },
-      "response": []
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 404\", () => pm.response.to.have.status(404));",
+              "pm.test(\"hata mesajı var\", () => pm.expect(pm.response.json().error.message).to.be.a(\"string\"));"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "5 Etkinlik oluştur (201)",
@@ -111,7 +146,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"title\": \"Git ve GitHub Atölyesi\",\n  \"category\": \"Atölye\",\n  \"capacity\": 30,\n  \"date\": \"2026-12-03\",\n  \"time\": \"14:00\",\n  \"location\": \"Bilgisayar Laboratuvarı 2\",\n  \"description\": \"Commit, branch ve pull request ile ilk adımlar.\"\n}",
+          "raw": "{\n  \"title\": \"Git ve GitHub Atölyesi\",\n  \"category\": \"Atölye\",\n  \"capacity\": 30,\n  \"date\": \"03-12-2026\",\n  \"time\": \"14:00\",\n  \"location\": \"Bilgisayar Laboratuvarı 2\",\n  \"description\": \"Commit, branch ve pull request ile ilk adımlar.\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -130,7 +165,22 @@
           ]
         }
       },
-      "response": []
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 201\", () => pm.response.to.have.status(201));",
+              "const e = pm.response.json();",
+              "pm.test(\"tarih GG-AA-YYYY döndü\", () => pm.expect(e.date).to.eql(\"03-12-2026\"));",
+              "// PATCH ve DELETE bu yeni kayıtla çalışır; seed verisi bozulmaz",
+              "pm.collectionVariables.set(\"newId\", e._id);"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "6 Eksik veri (400)",
@@ -163,12 +213,527 @@
           ]
         }
       },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"hata mesajı var\", () => pm.expect(pm.response.json().error.message).to.be.a(\"string\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "7 Yanlış tarih biçimi (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/events",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "events"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Git ve GitHub Atölyesi\",\n  \"category\": \"Atölye\",\n  \"date\": \"2026-12-03\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"hata mesajı var\", () => pm.expect(pm.response.json().error.message).to.be.a(\"string\"));"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "8 Güncelle (200)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/events/{{newId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "events",
+            "{{newId}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"capacity\": 45\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 200\", () => pm.response.to.have.status(200));",
+              "const e = pm.response.json();",
+              "pm.test(\"capacity 45\", () => pm.expect(e.capacity).to.eql(45));",
+              "pm.test(\"başlık aynı kaldı\", () => pm.expect(e.title).to.eql(\"Git ve GitHub Atölyesi\"));"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "9 Tarih güncelle (200)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/events/{{newId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "events",
+            "{{newId}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"date\": \"05-12-2026\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"tarih 05-12-2026\", () => pm.expect(pm.response.json().date).to.eql(\"05-12-2026\"));"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "10 Boş body (400)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/events/{{newId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "events",
+            "{{newId}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"hata mesajı var\", () => pm.expect(pm.response.json().error.message).to.be.a(\"string\"));"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "11 Geçersiz kategori (400)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/events/{{newId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "events",
+            "{{newId}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"category\": \"Parti\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"hata mesajı var\", () => pm.expect(pm.response.json().error.message).to.be.a(\"string\"));"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "12 _id değiştirme (400)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/events/{{newId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "events",
+            "{{newId}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"_id\": \"abc\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"hata mesajı var\", () => pm.expect(pm.response.json().error.message).to.be.a(\"string\"));"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "13 Olmayan id güncelle (404)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/events/yok",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "events",
+            "yok"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"capacity\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 404\", () => pm.response.to.have.status(404));",
+              "pm.test(\"hata mesajı var\", () => pm.expect(pm.response.json().error.message).to.be.a(\"string\"));"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "14 Arama",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/events?search=atölye",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "events"
+          ],
+          "query": [
+            {
+              "key": "search",
+              "value": "atölye"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"hepsinin başlığında atölye\", () => pm.response.json().forEach((e) => pm.expect(e.title.toLocaleLowerCase(\"tr\")).to.include(\"atölye\")));"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "15 Arama + kategori",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/events?search=atölye&category=Atölye",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "events"
+          ],
+          "query": [
+            {
+              "key": "search",
+              "value": "atölye"
+            },
+            {
+              "key": "category",
+              "value": "Atölye"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"hepsi Atölye\", () => pm.response.json().forEach((e) => pm.expect(e.category).to.eql(\"Atölye\")));"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "16 Yaklaşan etkinlikler",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/events/upcoming",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "events",
+            "upcoming"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 200\", () => pm.response.to.have.status(200));",
+              "const gun = (s) => { const [g, a, y] = s.split(\"-\").map(Number); return Date.UTC(y, a - 1, g); };",
+              "const n = new Date(); const bugun = Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate());",
+              "pm.test(\"geçmiş tarihli yok, en yakın önce\", () => pm.response.json().forEach((e, i, a) => { pm.expect(gun(e.date)).to.be.at.least(bugun); if (i) pm.expect(gun(e.date)).to.be.at.least(gun(a[i - 1].date)); }));"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "17 Sil (204)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/events/{{newId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "events",
+            "{{newId}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 204\", () => pm.response.to.have.status(204));",
+              "pm.test(\"gövde boş\", () => pm.expect(pm.response.text()).to.eql(\"\"));"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "18 Tekrar sil (404)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/events/{{newId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "events",
+            "{{newId}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status 404\", () => pm.response.to.have.status(404));",
+              "pm.test(\"hata mesajı var\", () => pm.expect(pm.response.json().error.message).to.be.a(\"string\"));"
+            ]
+          }
+        }
+      ],
       "response": []
     }
   ],
   "variable": [
     {
       "key": "eventId",
+      "value": ""
+    },
+    {
+      "key": "newId",
       "value": ""
     }
   ]
